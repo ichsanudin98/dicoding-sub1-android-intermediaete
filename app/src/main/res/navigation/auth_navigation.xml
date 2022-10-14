@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_navigation"
+    app:startDestination="@+id/nav_welcome">
+    <fragment
+        android:id="@+id/nav_welcome"
+        android:name="com.hirin.story.ui.auth.pages.welcome.WelcomeFragment"
+        android:label="@string/menu_welcome"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/actionToLoginFragment"
+            app:destination="@id/nav_login" />
+        <action
+            android:id="@+id/actionToRegisterFragment"
+            app:destination="@id/nav_register"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.hirin.story.ui.auth.pages.login.LoginFragment"
+        android:label="@string/menu_login"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/nav_register"
+        android:name="com.hirin.story.ui.auth.pages.register.RegisterFragment"
+        android:label="@string/menu_register"
+        tools:layout="@layout/fragment_register">
+        <action
+            android:id="@+id/actionToLoginFragment"
+            app:destination="@id/nav_login"
+            app:popUpTo="@+id/nav_welcome"
+            app:popUpToInclusive="true"/>
+    </fragment>
+</navigation>

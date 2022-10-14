@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="redCardNew">#BE321E</color>
+    <color name="darkGreyBlue">#35405a</color>
+    <color name="greenCardNew">#00B496</color>
+    <color name="pastelOrange">#ff753f</color>
+    <color name="blueGrey">#8a93a7</color>
+    <color name="slate">#58627a</color>
+    <color name="paleGreyTwo">#edeff3</color>
+    <color name="paleGreyThree">#dde6ee</color>
+    <color name="tomato">#ec3131</color>
+
+    <color name="greenCardNewSemi">#B300B496</color>
+</resources>

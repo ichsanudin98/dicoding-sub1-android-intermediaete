@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hirin.story.ui.main.pages.momentcreate.MomentCreateViewModel" />
+    </data>
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".ui.main.pages.momentcreate.MomentCreateFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/igMoment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_225sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:alpha="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize5Percent"
+                android:contentDescription="@{@string/general_image_content_description}"
+                android:src="@drawable/ic_image_24_black"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btCamera"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:alpha="0"
+                app:layout_constraintTop_toBottomOf="@id/igMoment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btGallery"
+                android:padding="@dimen/_10sdp"
+                app:cornerRadius="@dimen/_10sdp"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_12sdp"
+                android:text="@{@string/general_action_camera}"
+                tools:text="@string/general_action_camera" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btGallery"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:alpha="0"
+                app:layout_constraintTop_toBottomOf="@id/igMoment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btCamera"
+                android:padding="@dimen/_10sdp"
+                app:cornerRadius="@dimen/_10sdp"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_12sdp"
+                android:text="@{@string/general_action_gallery}"
+                tools:text="@string/general_action_gallery" />
+
+            <include
+                android:id="@+id/fbDescription"
+                layout="@layout/input_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@id/btCamera"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btUpload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:alpha="0"
+                android:enabled="false"
+                app:layout_constraintTop_toBottomOf="@id/fbDescription"
+                android:padding="@dimen/_10sdp"
+                app:cornerRadius="@dimen/_10sdp"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_12sdp"
+                android:text="@{@string/general_action_send}"
+                tools:text="@string/general_action_send" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

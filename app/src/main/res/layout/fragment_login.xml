@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hirin.story.ui.auth.pages.login.LoginViewModel" />
+    </data>
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.auth.pages.login.LoginFragment">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/ltHead"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:lottie_loop="true"
+                app:lottie_autoPlay="true"
+                android:scaleType="fitXY"
+                app:lottie_rawRes="@raw/invite"
+                app:layout_constraintBottom_toTopOf="@id/vwBottom"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_weight="0.45" />
+
+            <View
+                android:id="@+id/vwBottom"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/ltHead"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_weight="0.55" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tbHead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/vwBottom"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_minus20sdp"
+                android:alpha="0"
+                tools:text="@string/menu_login"
+                android:textSize="@dimen/_26sdp"
+                android:text="@{@string/menu_login}" />
+
+            <include
+                android:id="@+id/fbEmail"
+                layout="@layout/input_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@id/tbHead"/>
+
+            <include
+                android:id="@+id/fbPassword"
+                layout="@layout/input_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@id/fbEmail"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:alpha="0"
+                android:enabled="false"
+                app:layout_constraintTop_toBottomOf="@id/fbPassword"
+                android:padding="@dimen/_10sdp"
+                app:cornerRadius="@dimen/_10sdp"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_12sdp"
+                android:text="@{@string/general_action_send}"
+                tools:text="@string/general_action_send" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

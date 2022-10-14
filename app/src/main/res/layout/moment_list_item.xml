@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_5sdp"
+        android:paddingTop="@dimen/_8sdp">
+
+        <com.hirin.story.utils.customview.CircularTextView
+            android:id="@+id/tbInitial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center_vertical|center_horizontal"
+            tools:text="ddd"
+            android:maxLength="3"
+            android:textAllCaps="true"
+            android:textColor="#000"
+            android:textSize="@dimen/_13sdp"
+            android:background="@drawable/bg_textview_circular" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tbName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@id/tbInitial"
+            app:layout_constraintStart_toEndOf="@id/tbInitial"
+            app:layout_constraintBottom_toTopOf="@id/tbDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:textSize="@dimen/_14sdp"
+            tools:text="@string/title_name"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tbDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_11sdp"
+            app:layout_constraintTop_toBottomOf="@id/tbName"
+            app:layout_constraintStart_toEndOf="@id/tbInitial"
+            app:layout_constraintBottom_toBottomOf="@id/tbInitial"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="@dimen/_8sdp"
+            tools:text="Create date"
+            android:fontFamily="@font/ubuntu_regular" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tbDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintTop_toBottomOf="@id/tbInitial"
+            app:layout_constraintStart_toStartOf="@id/tbInitial"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            tools:text="Deskripsi"
+            android:fontFamily="@font/ubuntu_regular" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/igMoment"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_140sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@id/tbDescription"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize5Percent"
+            android:contentDescription="@{@string/general_image_content_description}"
+            tools:src="@drawable/ic_post_add_24_black"/>
+
+        <View
+            android:id="@+id/underlineBackground"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@color/paleGreyThree"
+            app:layout_constraintTop_toBottomOf="@id/igMoment" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

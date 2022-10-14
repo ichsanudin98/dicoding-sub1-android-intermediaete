@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Story</string>
+
+    <string name="menu_welcome">Welcome</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_main">Main</string>
+    <string name="menu_register">Register</string>
+    <string name="menu_moment_create">Create momen</string>
+    <string name="menu_moment_list">Moment list</string>
+    <string name="menu_moment_detail">Moment detail</string>
+    <string name="menu_home">Main</string>
+    <string name="menu_account">Account</string>
+    <string name="menu_localization">Select language</string>
+
+    <string name="general_action_ok">OK</string>
+    <string name="general_action_send">Send</string>
+    <string name="general_action_paste">Paste</string>
+    <string name="general_action_add">Add</string>
+    <string name="general_action_camera">Camera</string>
+    <string name="general_action_gallery">Gallery</string>
+    <string name="general_action_logout">Logout</string>
+    <string name="general_action_localize">Languages</string>
+    <string name="general_action_search">Searching</string>
+    <string name="general_image_content_description">This is an image</string>
+    <string name="general_menu_content_description">This is an menu</string>
+    <string name="general_error">Error</string>
+
+    <string name="title_exit_app_toast">Press again to exit.</string>
+    <string name="title_welcome_head">Capture your moment</string>
+    <string name="title_welcome_body">Share and watch your or friends moment.</string>
+    <string name="title_having_account">Have account? Login</string>
+    <string name="title_register_is_free">Join us, it\'s free</string>
+    <string name="title_email">Email</string>
+    <string name="title_password">Password</string>
+    <string name="title_name">Name</string>
+    <string name="title_description">Description</string>
+    <string name="title_latest">Recently</string>
+    <string name="title_minute">minute</string>
+    <string name="title_hour">hour</string>
+    <string name="title_day">day</string>
+    <string name="title_ago">ago</string>
+    <string name="title_password_confirmation">Confirmation password</string>
+    <string name="title_success_capturing_photo">Success capturing picture</string>
+    <string name="title_logout_success">Logout is successfully</string>
+
+    <string name="error_required">required</string>
+    <string name="error_email_validation">Wrong format. Use this format: nama@email.com.</string>
+    <string name="error_min_length_6">minimal 6 character</string>
+    <string name="error_not_same_password">Password not match</string>
+    <string name="error_network_message">No network</string>
+    <string name="error_file_upload">Error uploading file</string>
+    <string name="error_capturing_photo">Error capturing picture</string>
+</resources>

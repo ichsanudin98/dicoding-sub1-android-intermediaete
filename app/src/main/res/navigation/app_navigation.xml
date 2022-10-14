@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_moment_list">
+    <fragment
+        android:id="@+id/nav_moment_list"
+        android:name="com.hirin.story.ui.main.pages.momentlist.MomentListFragment"
+        android:label="@string/menu_moment_list"
+        tools:layout="@layout/fragment_moment_list">
+        <action
+            android:id="@+id/actionToMomentCreateFragment"
+            app:destination="@id/nav_moment_create" />
+        <action
+            android:id="@+id/actionToMomentDetailFragment"
+            app:destination="@id/nav_moment_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_moment_detail"
+        android:name="com.hirin.story.ui.main.pages.momentdetail.MomentDetailFragment"
+        android:label="@string/menu_moment_detail"
+        tools:layout="@layout/fragment_moment_detail">
+        <argument
+            android:name="data"
+            app:argType="com.hirin.story.data.moment.response.MomentListStoryResponse" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_moment_create"
+        android:name="com.hirin.story.ui.main.pages.momentcreate.MomentCreateFragment"
+        android:label="@string/menu_moment_create"
+        tools:layout="@layout/fragment_moment_create">
+        <action
+            android:id="@+id/actionToMomentListFragment"
+            app:destination="@id/nav_moment_list" />
+    </fragment>
+</navigation>

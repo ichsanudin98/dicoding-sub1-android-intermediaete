@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Story</string>
+
+    <string name="menu_welcome">Selamat datang</string>
+    <string name="menu_login">Login</string>
+    <string name="menu_main">Utama</string>
+    <string name="menu_register">Daftar</string>
+    <string name="menu_moment_create">Buat momen</string>
+    <string name="menu_moment_list">Daftar momen</string>
+    <string name="menu_moment_detail">Detail momen</string>
+    <string name="menu_home">Utama</string>
+    <string name="menu_account">Akun</string>
+    <string name="menu_localization">Pilih bahasa</string>
+
+    <string name="general_action_ok">OK</string>
+    <string name="general_action_send">Kirim</string>
+    <string name="general_action_paste">Tempel</string>
+    <string name="general_action_add">Tambah</string>
+    <string name="general_action_camera">Kamera</string>
+    <string name="general_action_gallery">Galeri</string>
+    <string name="general_action_logout">Keluar</string>
+    <string name="general_action_localize">Bahasa</string>
+    <string name="general_action_search">Cari</string>
+    <string name="general_image_content_description">Ini adalah sebuah gambar</string>
+    <string name="general_menu_content_description">Ini adalah sebuah menu</string>
+    <string name="general_error">Gagal</string>
+
+    <string name="title_exit_app_toast">Tekan sekali lagi untuk keluar</string>
+    <string name="title_welcome_head">Abadikan momen kamu</string>
+    <string name="title_welcome_body">Buat dan lihat momen yang kamu ataupun teman kamu buat.</string>
+    <string name="title_having_account">Sudah memiliki akun? Login</string>
+    <string name="title_register_is_free">Bergabung sekarang, gratis</string>
+    <string name="title_email">Email</string>
+    <string name="title_password">Kata sandi</string>
+    <string name="title_name">Nama</string>
+    <string name="title_description">Deskripsi</string>
+    <string name="title_latest">Baru saja</string>
+    <string name="title_minute">menit</string>
+    <string name="title_hour">jam</string>
+    <string name="title_day">hari</string>
+    <string name="title_ago">yang lalu</string>
+    <string name="title_password_confirmation">Konfirmasi kata sandi</string>
+    <string name="title_success_capturing_photo">Berhasil mengambil gambar</string>
+    <string name="title_logout_success">Keluar dari akun berhasil</string>
+
+    <string name="error_required">wajib diisi</string>
+    <string name="error_email_validation">Format salah. Gunakan format: nama@email.com.</string>
+    <string name="error_min_length_6">minimal 6 karakter</string>
+    <string name="error_not_same_password">Password tidak sama</string>
+    <string name="error_network_message">Tidak terhubung ke Internet</string>
+    <string name="error_file_upload">Gagal mengunggah file</string>
+    <string name="error_capturing_photo">Gagal mengambil foto</string>
+</resources>

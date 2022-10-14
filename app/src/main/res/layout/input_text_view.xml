@@ -1,0 +1,110 @@
+<androidx.constraintlayout.widget.ConstraintLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:alpha="0">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tbTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ubuntu_medium"
+        android:textColor="@color/blueGrey"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Phone Number or Email" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/fbValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:fontFamily="@font/ubuntu_regular"
+        android:importantForAutofill="no"
+        android:lines="1"
+        android:paddingLeft="0dp"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingRight="0dp"
+        android:paddingBottom="@dimen/_5sdp"
+        android:saveEnabled="false"
+        android:textColor="@color/slate"
+        android:textSize="@dimen/_13sdp"
+        android:drawablePadding="@dimen/_30sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tbTitle"
+        app:layout_constraintEnd_toStartOf="@id/tbPaste"
+        tools:hint="e.g. 62812345678 or you@example.org"
+        tools:ignore="LabelFor"
+        tools:text="081380168556081380168556081380168556081380168556081380168556081380168556081380168556" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tbPaste"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ubuntu_medium"
+        android:textSize="@dimen/_13sdp"
+        android:textColor="@color/teal_200"
+        android:text="@string/general_action_paste"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/fbValue"
+        app:layout_constraintBottom_toBottomOf="@id/fbValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/fbValue"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/igChecklist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/general_image_content_description"
+        android:src="@drawable/ic_check_18_green"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintRight_toRightOf="@id/fbValue"
+        app:layout_constraintTop_toTopOf="@+id/fbValue"
+        app:layout_constraintBottom_toBottomOf="@id/fbValue"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/igClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/general_image_content_description"
+        android:src="@drawable/ic_circle_cross"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/fbValue"
+        app:layout_constraintRight_toRightOf="@id/fbValue"
+        app:layout_constraintTop_toTopOf="@+id/fbValue" />
+
+    <View
+        android:id="@+id/underlineBackground"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_1sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:background="@color/paleGreyThree"
+        app:layout_constraintTop_toBottomOf="@+id/fbValue" />
+
+    <View
+        android:id="@+id/underline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/underlineBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/underlineBackground"
+        tools:background="@color/tomato" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tbMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:fontFamily="@font/ubuntu_medium"
+        android:textSize="@dimen/_11sdp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@+id/underline"
+        tools:text="Cannot be empty"
+        tools:textColor="@color/tomato"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
