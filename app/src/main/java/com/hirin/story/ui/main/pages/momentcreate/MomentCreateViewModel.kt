@@ -1,12 +1,12 @@
 package com.hirin.story.ui.main.pages.momentcreate
 
-import android.content.Context
+import android.app.Application
 import androidx.lifecycle.viewModelScope
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.hirin.story.data.BasicResponse
 import com.hirin.story.data.GenericErrorResponse
 import com.hirin.story.domain.moment.MomentCreateUseCase
-import com.hirin.story.ui.base.BaseViewModel
+import com.hirin.story.ui.base.BaseAndroidViewModel
 import com.hirin.story.utils.PostLiveData
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.size
@@ -14,12 +14,12 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class MomentCreateViewModel(
-    private val context: Context,
+    application: Application,
     private val momentCreateUseCase: MomentCreateUseCase
-) : BaseViewModel() {
+) : BaseAndroidViewModel(application) {
     internal val momentCreateLiveData = PostLiveData<BasicResponse?>()
 
-    fun create(
+    fun createMoment(
         photoFile: File,
         description: String,
         latitude: String?,
@@ -27,7 +27,7 @@ class MomentCreateViewModel(
     ) {
         viewModelScope.launch {
             showLoadingWidget()
-            val file = Compressor.compress(context, photoFile) {
+            val file = Compressor.compress(getApplication<Application>().applicationContext, photoFile) {
                 size(1_000_000)
             }
             when (val response = momentCreateUseCase(

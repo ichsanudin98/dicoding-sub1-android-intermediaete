@@ -105,7 +105,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         hideToast(delay)
     }
 
-    fun hideToast(delay:Long){
+    private fun hideToast(delay:Long){
         lifecycleScope.launch {
             delay(delay)
             binding.toastWidget.animate().alpha(0.0f)
@@ -113,7 +113,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    fun getBackStackCount(): Int {
+    private fun getBackStackCount(): Int {
         val navHostFragment = supportFragmentManager.findFragmentById(binding.contentFragment.id)
         return navHostFragment?.childFragmentManager?.backStackEntryCount ?: 0
     }

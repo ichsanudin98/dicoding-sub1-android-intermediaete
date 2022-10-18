@@ -2,10 +2,8 @@ package com.hirin.story.ui.main.pages.momentlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.hirin.story.R
 import com.hirin.story.data.moment.response.MomentListStoryResponse
 import com.hirin.story.databinding.MomentListItemBinding
 import com.hirin.story.utils.extension.convertDate
@@ -42,12 +40,7 @@ class MomentListViewHolder(
             latestTitle: String, minuteTitle: String, hourTitle: String,
             dayTitle: String, agoTitle: String
         ): MomentListViewHolder {
-            val view = DataBindingUtil
-                .inflate<MomentListItemBinding>(
-                    LayoutInflater.from(parent.context),
-                    R.layout.moment_list_item,
-                    parent, false
-                )
+            val view = MomentListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
             return MomentListViewHolder(view, onItemClicked, latestTitle, minuteTitle, hourTitle, dayTitle, agoTitle)
         }
     }

@@ -5,7 +5,7 @@ import android.view.View
 import androidx.core.widget.doOnTextChanged
 import com.hirin.story.data.localization.Localization
 import com.hirin.story.databinding.FragmentLocalizationBottomSheetBinding
-import com.jtracker.ui.base.BaseBottomSheet
+import com.hirin.story.ui.base.BaseBottomSheet
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LocalizationBottomSheet(

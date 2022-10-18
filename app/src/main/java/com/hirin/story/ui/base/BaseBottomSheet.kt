@@ -1,4 +1,4 @@
-package com.jtracker.ui.base
+package com.hirin.story.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

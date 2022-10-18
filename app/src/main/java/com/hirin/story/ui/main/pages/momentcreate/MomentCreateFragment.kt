@@ -79,7 +79,7 @@ class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
             }
             btUpload.setOnClickListener {
                 photoFile?.let { file ->
-                    viewModel?.create(
+                    viewModel?.createMoment(
                         file,
                         descriptionColumn.value().text.toString(),
                         null, null
