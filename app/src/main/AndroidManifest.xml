@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- Network Permission -->
-    <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- Camera Permission -->
+    <!-- Network Permission -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- Camera Permission -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -18,6 +17,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Story"
         tools:targetApi="31">
+
+        <!--Setting your API KEY in gradle.properties file with name 'MAPS_KEY'-->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/MAPS_KEY" />
+
         <activity
             android:name=".ui.auth.AuthActivity"
             android:exported="false"

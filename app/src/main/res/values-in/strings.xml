@@ -6,6 +6,7 @@
     <string name="menu_login">Login</string>
     <string name="menu_main">Utama</string>
     <string name="menu_register">Daftar</string>
+    <string name="menu_nearby">Terdekat</string>
     <string name="menu_moment_create">Buat momen</string>
     <string name="menu_moment_list">Daftar momen</string>
     <string name="menu_moment_detail">Detail momen</string>
@@ -20,6 +21,7 @@
     <string name="general_action_camera">Kamera</string>
     <string name="general_action_gallery">Galeri</string>
     <string name="general_action_logout">Keluar</string>
+    <string name="general_action_nearby">Terdekat</string>
     <string name="general_action_localize">Bahasa</string>
     <string name="general_action_search">Cari</string>
     <string name="general_image_content_description">Ini adalah sebuah gambar</string>

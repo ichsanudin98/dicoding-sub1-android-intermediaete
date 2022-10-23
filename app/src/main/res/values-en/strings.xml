@@ -6,6 +6,7 @@
     <string name="menu_login">Login</string>
     <string name="menu_main">Main</string>
     <string name="menu_register">Register</string>
+    <string name="menu_nearby">Nearby</string>
     <string name="menu_moment_create">Create momen</string>
     <string name="menu_moment_list">Moment list</string>
     <string name="menu_moment_detail">Moment detail</string>
@@ -20,6 +21,7 @@
     <string name="general_action_camera">Camera</string>
     <string name="general_action_gallery">Gallery</string>
     <string name="general_action_logout">Logout</string>
+    <string name="general_action_nearby">Nearby</string>
     <string name="general_action_localize">Languages</string>
     <string name="general_action_search">Searching</string>
     <string name="general_image_content_description">This is an image</string>
