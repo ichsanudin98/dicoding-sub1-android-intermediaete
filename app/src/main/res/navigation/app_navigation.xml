@@ -44,5 +44,9 @@
         android:id="@+id/nav_nearby"
         android:name="com.hirin.story.ui.main.pages.nearby.NearByFragment"
         android:label="@string/menu_nearby"
-        tools:layout="@layout/fragment_near_by" />
+        tools:layout="@layout/fragment_near_by">
+        <action
+            android:id="@+id/actionToMomentDetailFragment"
+            app:destination="@id/nav_moment_detail" />
+    </fragment>
 </navigation>

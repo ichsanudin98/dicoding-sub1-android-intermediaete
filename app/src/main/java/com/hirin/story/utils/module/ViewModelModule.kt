@@ -7,6 +7,7 @@ import com.hirin.story.ui.localization.LocalizationViewModel
 import com.hirin.story.ui.main.MainViewModel
 import com.hirin.story.ui.main.pages.momentcreate.MomentCreateViewModel
 import com.hirin.story.ui.main.pages.momentlist.MomentListViewModel
+import com.hirin.story.ui.main.pages.nearby.NearByViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -20,5 +21,6 @@ val ViewModelModule = module {
     viewModel { LoginViewModel(get()) }
 
     viewModel { MomentListViewModel(get()) }
+    viewModel { NearByViewModel(get()) }
     viewModel { MomentCreateViewModel(androidApplication(), get()) }
 }

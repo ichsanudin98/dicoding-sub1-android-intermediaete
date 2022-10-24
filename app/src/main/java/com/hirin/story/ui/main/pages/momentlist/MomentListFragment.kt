@@ -1,7 +1,11 @@
 package com.hirin.story.ui.main.pages.momentlist
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.hirin.story.R
 import com.hirin.story.data.GenericErrorResponse
@@ -10,6 +14,7 @@ import com.hirin.story.data.moment.response.MomentListStoryResponse
 import com.hirin.story.databinding.FragmentMomentListBinding
 import com.hirin.story.ui.base.BaseFragment
 import com.hirin.story.ui.main.MainActivity
+import com.hirin.story.utils.constant.GoToConstant
 import com.hirin.story.utils.extension.navigateSlideHorizontal
 import com.hirin.story.utils.extension.observeNonNull
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -59,8 +64,10 @@ class MomentListFragment : BaseFragment<FragmentMomentListBinding>() {
                 viewModel?.getAllMoment(page, totalSize, 0)
             }
             btAdd.setOnClickListener {
-                val direction = MomentListFragmentDirections.actionToMomentCreateFragment()
-                findNavController().navigateSlideHorizontal(direction)
+                checkingLocationPermission(GoToConstant.MOMENT_CREATE)
+            }
+            btNearby.setOnClickListener {
+                checkingLocationPermission(GoToConstant.NEARBY)
             }
 
             rvMoment.adapter = momentListAdapter
@@ -89,4 +96,28 @@ class MomentListFragment : BaseFragment<FragmentMomentListBinding>() {
         )
         findNavController().navigateSlideHorizontal(direction)
     }
+
+    private fun checkingLocationPermission(goToPage: Int) {
+        if (ContextCompat.checkSelfPermission(requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        } else {
+            val direction = if (goToPage == GoToConstant.NEARBY) {
+                MomentListFragmentDirections.actionToNearByFragment()
+            } else {
+                MomentListFragmentDirections.actionToMomentCreateFragment()
+            }
+            findNavController().navigateSlideHorizontal(direction)
+        }
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) {
+            if (it) {
+                val direction = MomentListFragmentDirections.actionToNearByFragment()
+                findNavController().navigateSlideHorizontal(direction)
+            }
+        }
 }
