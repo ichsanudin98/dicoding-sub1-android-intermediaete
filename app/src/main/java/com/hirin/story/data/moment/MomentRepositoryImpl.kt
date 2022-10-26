@@ -1,10 +1,16 @@
 package com.hirin.story.data.moment
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.hirin.story.data.BasicResponse
 import com.hirin.story.data.GenericErrorResponse
 import com.hirin.story.data.moment.response.MomentListResponse
+import com.hirin.story.data.moment.response.MomentListStoryResponse
 import com.hirin.story.domain.moment.MomentRepository
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -20,6 +26,17 @@ class MomentRepositoryImpl(private val context: Context, private val momentServi
         location: Int
     ): NetworkResponse<MomentListResponse, GenericErrorResponse> {
         return momentService.getAllMoment(page, size, location)
+    }
+
+    override fun getMomentWithPaging(): LiveData<PagingData<MomentListStoryResponse>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                MomentPagingSource(momentService)
+            }
+        ).liveData
     }
 
     override suspend fun createMoment(

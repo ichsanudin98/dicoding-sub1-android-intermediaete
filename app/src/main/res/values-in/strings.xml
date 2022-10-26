@@ -24,6 +24,7 @@
     <string name="general_action_nearby">Terdekat</string>
     <string name="general_action_localize">Bahasa</string>
     <string name="general_action_search">Cari</string>
+    <string name="general_action_retry">Ulangi</string>
     <string name="general_image_content_description">Ini adalah sebuah gambar</string>
     <string name="general_menu_content_description">Ini adalah sebuah menu</string>
     <string name="general_error">Gagal</string>
@@ -45,6 +46,7 @@
     <string name="title_password_confirmation">Konfirmasi kata sandi</string>
     <string name="title_success_capturing_photo">Berhasil mengambil gambar</string>
     <string name="title_logout_success">Keluar dari akun berhasil</string>
+    <string name="title_select_location">Pilih lokasi unggah momen</string>
 
     <string name="error_required">wajib diisi</string>
     <string name="error_email_validation">Format salah. Gunakan format: nama@email.com.</string>

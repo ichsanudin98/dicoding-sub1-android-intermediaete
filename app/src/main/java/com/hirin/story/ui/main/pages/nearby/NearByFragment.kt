@@ -52,12 +52,16 @@ class NearByFragment : BaseFragment<FragmentNearByBinding>(), OnInfoWindowClickL
          * user has installed Google Play services and returned to the app.
          */
         gMap = googleMap
+        gMap?.setMapStyle(
+            MapStyleOptions.loadRawResourceStyle(
+                requireContext(), R.raw.map_style))
+
         val sydney = LatLng(-34.0, 151.0)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
-    private val infoWindowCallback = GoogleMap.OnInfoWindowClickListener { marker ->
+    private val infoWindowCallback = OnInfoWindowClickListener { marker ->
         marker.id
     }
 

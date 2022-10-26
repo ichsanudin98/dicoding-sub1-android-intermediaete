@@ -20,7 +20,7 @@ val ViewModelModule = module {
     viewModel { RegisterViewModel(get()) }
     viewModel { LoginViewModel(get()) }
 
-    viewModel { MomentListViewModel(get()) }
+    viewModel { MomentListViewModel(get(), get()) }
     viewModel { NearByViewModel(get()) }
     viewModel { MomentCreateViewModel(androidApplication(), get()) }
 }

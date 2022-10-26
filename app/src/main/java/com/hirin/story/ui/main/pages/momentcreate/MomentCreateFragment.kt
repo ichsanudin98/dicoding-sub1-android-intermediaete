@@ -16,8 +16,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.view.setPadding
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.MarkerOptions
 import com.hirin.story.R
 import com.hirin.story.data.BasicResponse
 import com.hirin.story.data.GenericErrorResponse
@@ -35,11 +43,63 @@ import java.io.File
 class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
     // <editor-fold defaultstate="collapsed" desc="initialize ui">
     private lateinit var descriptionColumn: InputTextView
+    private var mapFragment: SupportMapFragment? = null
+    private var gMap: GoogleMap? = null
     // </editor-fold>
     // <editor-fold defaultstate="collapsed" desc="initialize data">
     private val viewModel: MomentCreateViewModel by viewModel()
     private var photoFile: File? = null
+
+    private var locationSelected: LatLng? = null
     // </editor-fold>
+
+    private val callback = OnMapReadyCallback { googleMap ->
+        /**
+         * Manipulates the map once available.
+         * This callback is triggered when the map is ready to be used.
+         * This is where we can add markers or lines, add listeners or move the camera.
+         * In this case, we just add a marker near Sydney, Australia.
+         * If Google Play services is not installed on the device, the user will be prompted to
+         * install it inside the SupportMapFragment. This method will only be triggered once the
+         * user has installed Google Play services and returned to the app.
+         */
+        /**
+         * Manipulates the map once available.
+         * This callback is triggered when the map is ready to be used.
+         * This is where we can add markers or lines, add listeners or move the camera.
+         * In this case, we just add a marker near Sydney, Australia.
+         * If Google Play services is not installed on the device, the user will be prompted to
+         * install it inside the SupportMapFragment. This method will only be triggered once the
+         * user has installed Google Play services and returned to the app.
+         */
+        gMap = googleMap
+        gMap?.apply {
+            val oldPosition = cameraPosition.target
+
+            setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    requireContext(), R.raw.map_style))
+            setOnCameraMoveStartedListener {
+                binding.contentView.requestDisallowInterceptTouchEvent(true)
+                binding.igMarker.animate().translationY(-50f).start()
+                binding.igMarkerShadow.animate().withStartAction {
+                    binding.igMarkerShadow.setPadding(10)
+                }.start()
+            }
+            setOnCameraIdleListener {
+                binding.contentView.requestDisallowInterceptTouchEvent(false)
+                val newPosition = cameraPosition.target
+                if (newPosition != oldPosition) {
+                    binding.igMarker.animate().translationY(0f).start()
+                    binding.igMarkerShadow.animate().withStartAction {
+                        binding.igMarkerShadow.setPadding(0)
+                    }.start()
+                }
+
+                locationSelected = newPosition
+            }
+        }
+    }
 
     override fun getViewBinding(): FragmentMomentCreateBinding =
         FragmentMomentCreateBinding.inflate(layoutInflater)
@@ -62,6 +122,8 @@ class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
     private fun initUI() {
         with(binding) {
             (requireActivity() as MainActivity).supportActionBar?.title = resources.getString(R.string.menu_moment_create)
+            mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+            mapFragment?.getMapAsync(callback)
             btCamera.setOnClickListener {
                 if (!isAllPermissionGranted())
                     requestPermission()
@@ -82,7 +144,7 @@ class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
                     viewModel?.createMoment(
                         file,
                         descriptionColumn.value().text.toString(),
-                        null, null
+                        locationSelected?.latitude?.toString(), locationSelected?.longitude?.toString()
                     )
                 }
             }
@@ -112,14 +174,23 @@ class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
             val image = ObjectAnimator.ofFloat(igMoment, View.ALPHA, 1f).setDuration(500)
             val gallery = ObjectAnimator.ofFloat(btGallery, View.ALPHA, 1f).setDuration(500)
             val camera = ObjectAnimator.ofFloat(btCamera, View.ALPHA, 1f).setDuration(500)
+
+            val titleMap = ObjectAnimator.ofFloat(tbSelectLocation, View.ALPHA, 1f).setDuration(500)
+            val map = ObjectAnimator.ofFloat(map, View.ALPHA, 1f).setDuration(500)
+            val marker = ObjectAnimator.ofFloat(igMarker, View.ALPHA, 1f).setDuration(500)
+            val shadow = ObjectAnimator.ofFloat(igMarkerShadow, View.ALPHA, 0.3f).setDuration(500)
+
             val setImage = AnimatorSet().apply {
                 playTogether(gallery, camera)
+            }
+            val setMaps = AnimatorSet().apply {
+                playTogether(titleMap, map, marker, shadow)
             }
             val description = ObjectAnimator.ofFloat(fbDescription.root, View.ALPHA, 1f).setDuration(500)
             val upload = ObjectAnimator.ofFloat(btUpload, View.ALPHA, 1f).setDuration(500)
 
             AnimatorSet().apply {
-                playSequentially(image, setImage, description, upload)
+                playSequentially(image, setImage, description, setMaps, upload)
                 start()
             }
         }

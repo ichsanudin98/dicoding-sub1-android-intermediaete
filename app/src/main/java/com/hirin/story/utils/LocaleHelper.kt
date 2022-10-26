@@ -37,7 +37,7 @@ class LocaleHelper {
             } catch (e: Exception) {
                 updateResources(
                     mContext,
-                    getLocale(mContext.resources).getLanguage()
+                    getLocale(mContext.resources).language
                 )
             }
         }

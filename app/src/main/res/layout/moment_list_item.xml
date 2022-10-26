@@ -29,7 +29,8 @@
         app:layout_constraintTop_toTopOf="@id/tbInitial"
         app:layout_constraintStart_toEndOf="@id/tbInitial"
         app:layout_constraintBottom_toTopOf="@id/tbDate"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/igStar"
+        android:layout_marginEnd="@dimen/_3sdp"
         android:layout_marginStart="@dimen/_8sdp"
         android:textSize="@dimen/_14sdp"
         tools:text="@string/title_name"
@@ -44,10 +45,21 @@
         app:layout_constraintTop_toBottomOf="@id/tbName"
         app:layout_constraintStart_toEndOf="@id/tbInitial"
         app:layout_constraintBottom_toBottomOf="@id/tbInitial"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/igStar"
+        android:layout_marginEnd="@dimen/_3sdp"
         android:layout_marginStart="@dimen/_8sdp"
         tools:text="Create date"
         android:fontFamily="@font/ubuntu_regular" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/igStar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="@dimen/_5sdp"
+        app:layout_constraintBottom_toBottomOf="@id/tbDate"
+        tools:src="@drawable/ic_star_border_24_black" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tbDescription"

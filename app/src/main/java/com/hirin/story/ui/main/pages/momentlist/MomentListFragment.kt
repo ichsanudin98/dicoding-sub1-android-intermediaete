@@ -23,7 +23,7 @@ class MomentListFragment : BaseFragment<FragmentMomentListBinding>() {
     // <editor-fold defaultstate="collapsed" desc="initialize data">
     private val viewModel: MomentListViewModel by viewModel()
     private val momentListAdapter by lazy {
-        MomentListAdapter(emptyList(), ::onItemClicked,
+        MomentListPagingAdapter(::onItemClicked,
             resources.getString(R.string.title_latest),
             resources.getString(R.string.title_minute),
             resources.getString(R.string.title_hour),
@@ -46,7 +46,11 @@ class MomentListFragment : BaseFragment<FragmentMomentListBinding>() {
             it.networkErrorLiveData.observeNonNull(viewLifecycleOwner, ::handleNetworkError)
             it.loadingWidgetLiveData.observeNonNull(viewLifecycleOwner, ::handleLoadingWidget)
 
-            it.getAllMoment(page, totalSize, 0)
+//            it.getAllMoment(page, totalSize, 0)
+
+            it.getAllMomentWithPaging().observe(viewLifecycleOwner) { result ->
+                momentListAdapter.submitData(lifecycle, result)
+            }
         }
     }
 
@@ -70,20 +74,24 @@ class MomentListFragment : BaseFragment<FragmentMomentListBinding>() {
                 checkingLocationPermission(GoToConstant.NEARBY)
             }
 
-            rvMoment.adapter = momentListAdapter
+            rvMoment.adapter = momentListAdapter.withLoadStateFooter(
+                footer = LoadingStateAdapter {
+                    momentListAdapter.retry()
+                }
+            )
         }
     }
 
     private fun handleSuccessGetData(response: MomentListResponse) {
-        if (response.listStory.isEmpty()) {
+//        if (response.listStory.isEmpty()) {
 //            binding.ltEmpty.visibility = View.VISIBLE
-            binding.rvMoment.visibility = View.GONE
-        } else {
-            momentListAdapter.items = response.listStory
+//            binding.rvMoment.visibility = View.GONE
+//        } else {
+//            momentListAdapter.items = response.listStory
 
 //            binding.ltEmpty.visibility = View.GONE
-            binding.rvMoment.visibility = View.VISIBLE
-        }
+//            binding.rvMoment.visibility = View.VISIBLE
+//        }
     }
 
     private fun handleErrorGetData(response: GenericErrorResponse) {
