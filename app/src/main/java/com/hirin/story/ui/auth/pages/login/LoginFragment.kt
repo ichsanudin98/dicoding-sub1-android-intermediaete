@@ -17,6 +17,8 @@ import com.hirin.story.databinding.FragmentLoginBinding
 import com.hirin.story.ui.base.BaseFragment
 import com.hirin.story.ui.main.MainActivity
 import com.hirin.story.utils.EditTextUtils
+import com.hirin.story.utils.SharedPreferencesUtil
+import com.hirin.story.utils.constant.type.SharedPrefsKeyEnum
 import com.hirin.story.utils.customview.InputTextView
 import com.hirin.story.utils.extension.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -119,9 +121,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
     }
 
     private fun handleSuccessLogin(response: LoginResponse) {
-        showSuccessSnackbar(response.message)
-        startActivity(Intent(requireActivity(), MainActivity::class.java))
-        requireActivity().finishAffinity()
+        response.result?.let {
+            SharedPreferencesUtil.put(SharedPrefsKeyEnum.USER_ID.name, it.userId)
+            SharedPreferencesUtil.put(SharedPrefsKeyEnum.NAME.name, it.name)
+            SharedPreferencesUtil.put(SharedPrefsKeyEnum.TOKEN.name, it.token)
+
+            showSuccessSnackbar(response.message)
+            startActivity(Intent(requireActivity(), MainActivity::class.java))
+            requireActivity().finishAffinity()
+        }
     }
 
     private fun handleErrorLogin(response: GenericErrorResponse) {

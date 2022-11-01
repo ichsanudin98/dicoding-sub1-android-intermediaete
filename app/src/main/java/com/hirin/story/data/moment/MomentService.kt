@@ -5,7 +5,6 @@ import com.hirin.story.BuildConfig
 import com.hirin.story.data.BasicResponse
 import com.hirin.story.data.GenericErrorResponse
 import com.hirin.story.data.moment.response.MomentListResponse
-import com.hirin.story.data.moment.response.MomentListStoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*

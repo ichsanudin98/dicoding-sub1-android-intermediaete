@@ -23,7 +23,7 @@ class App: Application() {
                     ViewModelModule,
                     DomainModule,
                     NetworkModule,
-                    RepositoryModule,
+                    RepositoryModule
                 )
             )
         }

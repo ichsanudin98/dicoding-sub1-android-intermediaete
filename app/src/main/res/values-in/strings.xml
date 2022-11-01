@@ -47,6 +47,7 @@
     <string name="title_success_capturing_photo">Berhasil mengambil gambar</string>
     <string name="title_logout_success">Keluar dari akun berhasil</string>
     <string name="title_select_location">Pilih lokasi unggah momen</string>
+    <string name="title_my_location">Lokasi saya</string>
 
     <string name="error_required">wajib diisi</string>
     <string name="error_email_validation">Format salah. Gunakan format: nama@email.com.</string>

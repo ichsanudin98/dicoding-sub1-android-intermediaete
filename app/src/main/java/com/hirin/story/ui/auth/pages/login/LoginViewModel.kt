@@ -7,8 +7,6 @@ import com.hirin.story.data.user.response.LoginResponse
 import com.hirin.story.domain.user.LoginUseCase
 import com.hirin.story.ui.base.BaseViewModel
 import com.hirin.story.utils.PostLiveData
-import com.hirin.story.utils.SharedPreferencesUtil
-import com.hirin.story.utils.constant.type.SharedPrefsKeyEnum
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -26,11 +24,6 @@ class LoginViewModel(
                 email, password
             )) {
                 is NetworkResponse.Success -> {
-                    response.body.result?.let {
-                        SharedPreferencesUtil.put(SharedPrefsKeyEnum.USER_ID.name, it.userId)
-                        SharedPreferencesUtil.put(SharedPrefsKeyEnum.NAME.name, it.name)
-                        SharedPreferencesUtil.put(SharedPrefsKeyEnum.TOKEN.name, it.token)
-                    }
                     loginLiveData.postValue(response.body)
                 }
                 is NetworkResponse.ServerError -> {

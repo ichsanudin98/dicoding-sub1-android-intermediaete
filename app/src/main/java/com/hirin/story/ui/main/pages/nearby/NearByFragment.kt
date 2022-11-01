@@ -1,15 +1,20 @@
 package com.hirin.story.ui.main.pages.nearby
 
+import android.Manifest
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
@@ -23,9 +28,9 @@ import com.hirin.story.data.moment.response.MomentListStoryResponse
 import com.hirin.story.databinding.FragmentNearByBinding
 import com.hirin.story.ui.base.BaseFragment
 import com.hirin.story.ui.main.MainActivity
-import com.hirin.story.ui.main.pages.momentlist.MomentListFragmentDirections
+import com.hirin.story.utils.extension.checkLocationPermission
 import com.hirin.story.utils.extension.getAddressName
-import com.hirin.story.utils.extension.navigateSlideHorizontal
+import com.hirin.story.utils.extension.getLastLocation
 import com.hirin.story.utils.extension.observeNonNull
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -37,8 +42,9 @@ class NearByFragment : BaseFragment<FragmentNearByBinding>(), OnInfoWindowClickL
     // <editor-fold defaultstate="collapsed" desc="initialize data">
     private val viewModel: NearByViewModel by viewModel()
     private var page = 1
-    private var totalSize = 1
+    private var totalSize = 10
     private val boundsBuilder = LatLngBounds.Builder()
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     // </editor-fold>
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -52,18 +58,28 @@ class NearByFragment : BaseFragment<FragmentNearByBinding>(), OnInfoWindowClickL
          * user has installed Google Play services and returned to the app.
          */
         gMap = googleMap
-        gMap?.setMapStyle(
-            MapStyleOptions.loadRawResourceStyle(
-                requireContext(), R.raw.map_style))
-
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        gMap?.apply {
+            setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    requireContext(), R.raw.map_style))
+            uiSettings.isZoomControlsEnabled = true
+            uiSettings.isCompassEnabled = true
+            if (requireActivity().checkLocationPermission()) {
+                isMyLocationEnabled = true
+            }
+        }
     }
 
-    private val infoWindowCallback = OnInfoWindowClickListener { marker ->
-        marker.id
-    }
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) {
+            if (it) {
+                fusedLocationClient.getLastLocation(requireActivity()) {
+                    createMyLocationMarker(it)
+                }
+            }
+        }
 
     override fun getViewBinding(): FragmentNearByBinding =
         FragmentNearByBinding.inflate(layoutInflater)
@@ -71,6 +87,8 @@ class NearByFragment : BaseFragment<FragmentNearByBinding>(), OnInfoWindowClickL
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        initPermission()
         this.binding.viewModel = viewModel.also {
             it.momentListLiveData.observeNonNull(viewLifecycleOwner, ::handleSuccessGetData)
             it.genericErrorLiveData.observeNonNull(viewLifecycleOwner, ::handleErrorGetData)
@@ -90,10 +108,10 @@ class NearByFragment : BaseFragment<FragmentNearByBinding>(), OnInfoWindowClickL
 
     override fun onInfoWindowClick(p0: Marker) {
         p0.tag?.let {
-            val direction = MomentListFragmentDirections.actionToMomentDetailFragment(
+            val direction = NearByFragmentDirections.actionToMomentDetailFragment(
                 data = it as MomentListStoryResponse
             )
-            findNavController().navigateSlideHorizontal(direction)
+            findNavController().navigate(direction)
         }
     }
 
@@ -102,6 +120,23 @@ class NearByFragment : BaseFragment<FragmentNearByBinding>(), OnInfoWindowClickL
             (requireActivity() as MainActivity).supportActionBar?.title = resources.getString(R.string.menu_nearby)
             mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
             mapFragment?.getMapAsync(callback)
+        }
+    }
+
+    private fun initPermission() {
+        if (!requireActivity().checkLocationPermission()) {
+            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        } else {
+            fusedLocationClient.getLastLocation(requireActivity()) {
+                createMyLocationMarker(it)
+            }
+        }
+    }
+
+    private fun createMyLocationMarker(location: Location) {
+        gMap?.apply {
+            val myLocation = LatLng(location.latitude, location.longitude)
+            animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f))
         }
     }
 
@@ -115,14 +150,12 @@ class NearByFragment : BaseFragment<FragmentNearByBinding>(), OnInfoWindowClickL
                             .position(position)
                             .title(data.name)
                             .snippet(position.getAddressName(requireContext()))
-                            .icon(vectorToBitmap(R.drawable.ic_person_pin_circle_24_black, Color.parseColor("#3DDC84")))
+                            .icon(vectorToBitmap(R.drawable.ic_person_pin_circle_24_black, Color.parseColor("#000000")))
                     )
                     marker?.tag = data
-                    setOnInfoWindowClickListener(this@NearByFragment)
-                    marker?.showInfoWindow()
                     boundsBuilder.include(position)
+                    setOnInfoWindowClickListener(this@NearByFragment)
                 }
-
                 val bounds: LatLngBounds = boundsBuilder.build()
                 animateCamera(
                     CameraUpdateFactory.newLatLngBounds(

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_5sdp"
+    android:background="@color/blueGrey"
+    android:orientation="vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/igMoment"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_110sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize5Percent"
+        android:contentDescription="@{@string/general_image_content_description}"
+        tools:src="@drawable/ic_post_add_24_black"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tbName"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_3sdp"
+        app:layout_constraintStart_toEndOf="@id/igMoment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tbDescription"
+        android:textStyle="bold"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tbDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        app:layout_constraintStart_toEndOf="@id/igMoment"
+        app:layout_constraintTop_toBottomOf="@id/tbName"
+        app:layout_constraintBottom_toBottomOf="@id/igMoment"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:singleLine="false" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

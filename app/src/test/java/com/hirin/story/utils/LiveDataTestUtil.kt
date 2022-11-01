@@ -7,9 +7,8 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
-//untuk menunggu sampai Livedata mendapatkan nilai pertama
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
-fun <T> PostLiveData<T>.getOrAwaitValue(
+fun <T> LiveData<T>.getOrAwaitValue(
     time: Long = 2,
     timeUnit: TimeUnit = TimeUnit.SECONDS,
     afterObserve: () -> Unit = {}
@@ -24,25 +23,19 @@ fun <T> PostLiveData<T>.getOrAwaitValue(
         }
     }
     this.observeForever(observer)
+
     try {
         afterObserve.invoke()
+
+        // Don't wait indefinitely if the LiveData is not set.
         if (!latch.await(time, timeUnit)) {
             throw TimeoutException("LiveData value was never set.")
         }
+
     } finally {
         this.removeObserver(observer)
     }
+
     @Suppress("UNCHECKED_CAST")
     return data as T
-}
-
-//observe Livedata sampai block selesai dieksekusi
-suspend fun <T> PostLiveData<T>.observeForTesting(block: suspend  () -> Unit) {
-    val observer = Observer<T> { }
-    try {
-        observeForever(observer)
-        block()
-    } finally {
-        removeObserver(observer)
-    }
 }

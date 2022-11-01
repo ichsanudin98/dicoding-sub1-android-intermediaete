@@ -47,6 +47,7 @@
     <string name="title_success_capturing_photo">Success capturing picture</string>
     <string name="title_logout_success">Logout is successfully</string>
     <string name="title_select_location">Select location uploading moment</string>
+    <string name="title_my_location">My location</string>
 
     <string name="error_required">required</string>
     <string name="error_email_validation">Wrong format. Use this format: nama@email.com.</string>

@@ -1,22 +1,18 @@
 package com.hirin.story.ui.main.pages.momentlist
 
 import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.hirin.story.R
-import com.hirin.story.data.GenericErrorResponse
-import com.hirin.story.data.moment.response.MomentListResponse
 import com.hirin.story.data.moment.response.MomentListStoryResponse
 import com.hirin.story.databinding.FragmentMomentListBinding
 import com.hirin.story.ui.base.BaseFragment
 import com.hirin.story.ui.main.MainActivity
 import com.hirin.story.utils.constant.GoToConstant
+import com.hirin.story.utils.extension.checkLocationPermission
 import com.hirin.story.utils.extension.navigateSlideHorizontal
-import com.hirin.story.utils.extension.observeNonNull
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MomentListFragment : BaseFragment<FragmentMomentListBinding>() {
@@ -41,13 +37,6 @@ class MomentListFragment : BaseFragment<FragmentMomentListBinding>() {
         super.onViewCreated(view, savedInstanceState)
         initUI()
         this.binding.viewModel = viewModel.also {
-            it.momentListLiveData.observeNonNull(viewLifecycleOwner, ::handleSuccessGetData)
-            it.genericErrorLiveData.observeNonNull(viewLifecycleOwner, ::handleErrorGetData)
-            it.networkErrorLiveData.observeNonNull(viewLifecycleOwner, ::handleNetworkError)
-            it.loadingWidgetLiveData.observeNonNull(viewLifecycleOwner, ::handleLoadingWidget)
-
-//            it.getAllMoment(page, totalSize, 0)
-
             it.getAllMomentWithPaging().observe(viewLifecycleOwner) { result ->
                 momentListAdapter.submitData(lifecycle, result)
             }
@@ -65,7 +54,9 @@ class MomentListFragment : BaseFragment<FragmentMomentListBinding>() {
         with(binding) {
             sfMoment.setOnRefreshListener {
                 sfMoment.isRefreshing = false
-                viewModel?.getAllMoment(page, totalSize, 0)
+                viewModel?.getAllMomentWithPaging()?.observe(viewLifecycleOwner) { result ->
+                    momentListAdapter.submitData(lifecycle, result)
+                }
             }
             btAdd.setOnClickListener {
                 checkingLocationPermission(GoToConstant.MOMENT_CREATE)
@@ -82,22 +73,6 @@ class MomentListFragment : BaseFragment<FragmentMomentListBinding>() {
         }
     }
 
-    private fun handleSuccessGetData(response: MomentListResponse) {
-//        if (response.listStory.isEmpty()) {
-//            binding.ltEmpty.visibility = View.VISIBLE
-//            binding.rvMoment.visibility = View.GONE
-//        } else {
-//            momentListAdapter.items = response.listStory
-
-//            binding.ltEmpty.visibility = View.GONE
-//            binding.rvMoment.visibility = View.VISIBLE
-//        }
-    }
-
-    private fun handleErrorGetData(response: GenericErrorResponse) {
-        handleGenericError(response)
-    }
-
     private fun onItemClicked(momentListStoryResponse: MomentListStoryResponse) {
         val direction = MomentListFragmentDirections.actionToMomentDetailFragment(
             data = momentListStoryResponse
@@ -106,8 +81,7 @@ class MomentListFragment : BaseFragment<FragmentMomentListBinding>() {
     }
 
     private fun checkingLocationPermission(goToPage: Int) {
-        if (ContextCompat.checkSelfPermission(requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (!requireActivity().checkLocationPermission()) {
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
             val direction = if (goToPage == GoToConstant.NEARBY) {

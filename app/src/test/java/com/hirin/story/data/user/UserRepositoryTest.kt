@@ -5,12 +5,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.hirin.story.data.BasicResponse
 import com.hirin.story.data.GenericErrorResponse
-import com.hirin.story.data.moment.response.MomentListResponse
 import com.hirin.story.data.user.request.LoginRequest
 import com.hirin.story.data.user.request.RegisterRequest
 import com.hirin.story.data.user.response.LoginResponse
 import com.hirin.story.domain.user.UserRepository
-import com.hirin.story.ui.auth.pages.login.LoginViewModel
 import com.hirin.story.utils.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -22,7 +20,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.test.KoinTest
-import org.koin.test.inject
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock

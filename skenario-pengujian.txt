@@ -1,0 +1,78 @@
+1. MomentRepositoryTest
+	a. Ketika berhasil memuat data
+		- Memastikan data tidak null
+		- Memastikan data yang diterima mengembalikan response success
+		- Memastikan data yang diterima sesuai dengan data dummy yang telah dibuat
+
+	b. Ketika gagal memuat data
+		- Memastikan data tidak null
+		- Memastikan data yang diterima mengembalikan response error
+		- Memastikan data yang diterima sesuai dengan data error yang telah dibuat
+2. UserRepositoryTest
+	a. Ketika berhasil melakukan register
+		- Memastikan data tidak null
+		- Memastikan data yang diterima mengembalikan response success
+		- Memastikan data yang diterima sesuai dengan data dummy yang telah dibuat
+	b. Ketika gagal melakukan register
+		- Memastikan data tidak null
+		- Memastikan data yang diterima mengembalikan response error
+		- Memastikan data yang diterima sesuai dengan data error yang telah dibuat
+	c. Ketika berhasil melakukan login
+		- Memastikan data tidak null
+		- Memastikan data yang diterima mengembalikan response success
+		- Memastikan data yang diterima sesuai dengan data dummy yang telah dibuat
+	d. Ketika gagal melakukan login
+		- Memastikan data tidak null
+		- Memastikan data yang diterima mengembalikan response error
+		- Memastikan data yang diterima sesuai dengan data error yang telah dibuat
+3. LoginViewModelTest
+	a. Ketika berhasil melakukan login
+		- Memastikan state loading tidak null
+		- Memastikan data yang diterima tidak null
+		- Memastikan data yang diterima mengembalikan response success
+		- Memastikan data yang diterima sesuai dengan data dummy yang telah dibuat
+	b. Ketika gagal melakukan login
+		- Memastikan state loading tidak null
+		- Memastikan data yang diterima tidak null
+		- Memastikan data yang diterima mengembalikan response error
+		- Memastikan data yang diterima sesuai dengan data error yang telah dibuat
+4. RegisterViewModelTest
+	a. Ketika berhasil melakukan register
+		- Memastikan state loading tidak null
+		- Memastikan data yang diterima tidak null
+		- Memastikan data yang diterima mengembalikan response success
+		- Memastikan data yang diterima sesuai dengan data dummy yang telah dibuat
+	b. Ketika gagal melakukan register
+		- Memastikan state loading tidak null
+		- Memastikan data yang diterima tidak null
+		- Memastikan data yang diterima mengembalikan response error
+		- Memastikan data yang diterima sesuai dengan data error yang telah dibuat
+	c. Ketika mengisi nilai konfirmasi password yang berbeda dengan nilai password
+		- Memastikan state validasi konfirmasi password harus sesuai dengan password tidak null
+	d. Ketika mengisi nilai konfirmasi password sama dengan nilai password
+		- Memastikan state validasi konfirmasi password harus sesuai dengan password null
+5. MomentCreateViewModelTest
+	a. Ketika berhasil menambahkan momen
+		- Memastikan state loading tidak null
+		- Memastikan data yang diterima tidak null
+		- Memastikan data yang diterima mengembalikan response success
+		- Memastikan data yang diterima sesuai dengan data dummy yang telah dibuat
+	b. Ketika gagal melakukan register
+		- Memastikan state loading tidak null
+		- Memastikan data yang diterima tidak null
+		- Memastikan data yang diterima mengembalikan response error
+		- Memastikan data yang diterima sesuai dengan data error yang telah dibuat
+6. NearByViewModelTest
+	a. Ketika berhasil mengambil data momen
+		- Memastikan state loading tidak null
+		- Memastikan data yang diterima tidak null
+		- Memastikan data yang diterima mengembalikan response success
+		- Memastikan data yang diterima sesuai dengan data dummy yang telah dibuat
+	b. Ketika gagal mengambil data momen
+		- Memastikan state loading tidak null
+		- Memastikan data yang diterima tidak null
+		- Memastikan data yang diterima mengembalikan response error
+		- Memastikan data yang diterima sesuai dengan data error yang telah dibuat
+7.MomentListViewModelTest
+	a. Ketika berhasil mengambil data momen
+		- Memastikan data ekspektasi sama dengan data aktualnya

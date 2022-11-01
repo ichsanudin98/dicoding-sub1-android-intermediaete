@@ -3,7 +3,6 @@ package com.hirin.story.ui.main.pages.momentlist
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.hirin.story.data.moment.response.MomentListStoryResponse
 
 class MomentListPagingAdapter(

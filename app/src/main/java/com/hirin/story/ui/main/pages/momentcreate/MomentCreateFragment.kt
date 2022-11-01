@@ -7,6 +7,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Typeface
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
@@ -17,15 +18,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.setPadding
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.MarkerOptions
 import com.hirin.story.R
 import com.hirin.story.data.BasicResponse
 import com.hirin.story.data.GenericErrorResponse
@@ -34,9 +37,11 @@ import com.hirin.story.ui.base.BaseFragment
 import com.hirin.story.ui.camera.CameraActivity
 import com.hirin.story.ui.main.MainActivity
 import com.hirin.story.utils.CameraUtil
+import com.hirin.story.utils.ImageUtil
+import com.hirin.story.utils.constant.PermissionConstant
 import com.hirin.story.utils.customview.InputTextView
-import com.hirin.story.utils.extension.observeNonNull
-import com.hirin.story.utils.extension.showSuccessSnackbar
+import com.hirin.story.utils.extension.*
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
@@ -51,6 +56,7 @@ class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
     private var photoFile: File? = null
 
     private var locationSelected: LatLng? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     // </editor-fold>
 
     private val callback = OnMapReadyCallback { googleMap ->
@@ -98,8 +104,25 @@ class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
 
                 locationSelected = newPosition
             }
+
+            uiSettings.isZoomControlsEnabled = true
+            uiSettings.isCompassEnabled = true
+            if (requireActivity().checkLocationPermission()) {
+                isMyLocationEnabled = true
+            }
         }
     }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) {
+            if (it) {
+                fusedLocationClient.getLastLocation(requireActivity()) {
+                    createMyLocationMarker(it)
+                }
+            }
+        }
 
     override fun getViewBinding(): FragmentMomentCreateBinding =
         FragmentMomentCreateBinding.inflate(layoutInflater)
@@ -107,9 +130,10 @@ class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initUI()
-
-        if (!isAllPermissionGranted())
-            requestPermission()
+        initPermission(PermissionConstant.CAMERA)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        initPermission(PermissionConstant.LOCATION)
+        ImageUtil.init(requireContext())
 
         this.binding.viewModel = viewModel.also {
             it.momentCreateLiveData.observeNonNull(viewLifecycleOwner, ::handleSuccessCreatedMoment)
@@ -125,8 +149,8 @@ class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
             mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
             mapFragment?.getMapAsync(callback)
             btCamera.setOnClickListener {
-                if (!isAllPermissionGranted())
-                    requestPermission()
+                if (!requireActivity().checkCameraPermission())
+                    initPermission(PermissionConstant.CAMERA)
                 else
                     launcherCamera.launch(
                         Intent(requireContext(), CameraActivity::class.java)
@@ -141,11 +165,13 @@ class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
             }
             btUpload.setOnClickListener {
                 photoFile?.let { file ->
-                    viewModel?.createMoment(
-                        file,
-                        descriptionColumn.value().text.toString(),
-                        locationSelected?.latitude?.toString(), locationSelected?.longitude?.toString()
-                    )
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel?.createMoment(
+                            ImageUtil.compressImage(file),
+                            descriptionColumn.value().text.toString(),
+                            locationSelected?.latitude?.toString(), locationSelected?.longitude?.toString()
+                        )
+                    }
                 }
             }
             descriptionColumn = InputTextView(requireContext(), fbDescription.root).apply {
@@ -196,6 +222,31 @@ class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
         }
     }
 
+    private fun initPermission(permissionType: Int) {
+        when (permissionType) {
+            PermissionConstant.LOCATION -> {
+                if (!requireActivity().checkLocationPermission()) {
+                    requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                } else {
+                    fusedLocationClient.getLastLocation(requireActivity()) {
+                        createMyLocationMarker(it)
+                    }
+                }
+            }
+            PermissionConstant.CAMERA -> {
+                if (!requireActivity().checkCameraPermission()) {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(
+                            Manifest.permission.CAMERA
+                        ),
+                        CameraUtil.REQUEST_CODE_PERMISSIONS
+                    )
+                }
+            }
+        }
+    }
+
     private fun checkingIsValid() = isValidation(descriptionColumn)
 
     private fun isValidation(inputTextView: InputTextView): Boolean =
@@ -205,6 +256,13 @@ class MomentCreateFragment : BaseFragment<FragmentMomentCreateBinding>() {
             }
             else -> { true }
         }
+
+    private fun createMyLocationMarker(location: Location) {
+        gMap?.apply {
+            val myLocation = LatLng(location.latitude, location.longitude)
+            animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f))
+        }
+    }
 
     private fun handleSuccessCreatedMoment(response: BasicResponse) {
         showSuccessSnackbar(response.message)

@@ -1,40 +1,37 @@
-package com.hirin.story.data.moment
+package com.hirin.story.ui.main.pages.nearby
 
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.hirin.story.data.GenericErrorResponse
+import com.hirin.story.data.moment.MomentRepositoryImpl
 import com.hirin.story.data.moment.response.MomentListResponse
+import com.hirin.story.domain.moment.MomentListUseCase
 import com.hirin.story.domain.moment.MomentRepository
 import com.hirin.story.utils.DataDummy
 import com.hirin.story.utils.MainDispatcherRule
+import com.hirin.story.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.test.KoinTest
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import retrofit2.Response
-import kotlin.test.Test
 
 @RunWith(MockitoJUnitRunner::class)
-class MomentRepositoryTest: KoinTest {
-    private lateinit var service: MomentService
+class NearByViewModelTest: KoinTest {
+    private lateinit var viewModel: NearByViewModel
+    private lateinit var momentListUseCase: MomentListUseCase
     private lateinit var repository: MomentRepository
 
     private lateinit var dummyError: GenericErrorResponse
     private lateinit var dummyMoment: MomentListResponse
-
-    @Mock
-    private var mockContext: Context = mock(Context::class.java)
 
     @Rule
     @JvmField
@@ -52,35 +49,53 @@ class MomentRepositoryTest: KoinTest {
             message = "Waduh error"
         )
         dummyMoment = DataDummy.generateDataDummyMomentList()
-        service = mock(MomentService::class.java)
-        repository = MomentRepositoryImpl(mockContext, service)
+
+        repository = Mockito.mock(MomentRepositoryImpl::class.java)
+        momentListUseCase = MomentListUseCase(repository)
+        viewModel = NearByViewModel(momentListUseCase)
     }
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `when get response success`() {
+    fun `when getting moment using location response success`() {
         runTest {
             val response = NetworkResponse.Success<MomentListResponse, GenericErrorResponse>(body = dummyMoment, response = Response.success(200))
-            `when`(service.getAllMoment(1, 1, 1)).thenReturn(response)
-            val result = repository.getMoment(1, 1, 1)
+            Mockito.`when`(repository.getMoment(1, 1, 1)).thenReturn(response)
 
-            Assert.assertNotNull(result)
-            Assert.assertTrue(result is NetworkResponse.Success)
-            assertEquals(response, result)
+            viewModel.getAllMoment(1, 1, 1)
+
+            val loadingState = viewModel.loadingWidgetLiveData.getOrAwaitValue()
+            val nearByState = viewModel.momentListLiveData.getOrAwaitValue()
+
+            Mockito.verify(repository).getMoment(1, 1, 1)
+
+            Assert.assertNotNull(loadingState)
+
+            Assert.assertNotNull(nearByState)
+            Assert.assertTrue(nearByState is MomentListResponse)
+            Assert.assertEquals(response.body, nearByState)
         }
     }
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `when get response failed`() {
+    fun `when getting moment using location response failed`() {
         runTest {
             val response = NetworkResponse.ServerError<MomentListResponse, GenericErrorResponse>(body = dummyError, response = Response.error<GenericErrorResponse>(400, dummyError.toString().toResponseBody("application/json".toMediaTypeOrNull())))
-            `when`(service.getAllMoment(1, 1, 1)).thenReturn(response)
-            val result = repository.getMoment(1, 1, 1)
+            Mockito.`when`(repository.getMoment(1, 1, 1)).thenReturn(response)
 
-            Assert.assertNotNull(result)
-            Assert.assertTrue(result is NetworkResponse.Error)
-            assertEquals(response, result)
+            viewModel.getAllMoment(1, 1, 1)
+
+            val loadingState = viewModel.loadingWidgetLiveData.getOrAwaitValue()
+            val errorState = viewModel.genericErrorLiveData.getOrAwaitValue()
+
+            Mockito.verify(repository).getMoment(1,1, 1)
+
+            Assert.assertNotNull(loadingState)
+
+            Assert.assertNotNull(errorState)
+            Assert.assertTrue(errorState is GenericErrorResponse)
+            Assert.assertEquals(response.body, errorState)
         }
     }
 }

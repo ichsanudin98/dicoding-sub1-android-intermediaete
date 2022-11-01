@@ -5,12 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.hirin.story.data.moment.response.MomentListStoryResponse
 import com.hirin.story.databinding.LoadingItemBinding
-import com.hirin.story.databinding.MomentListItemBinding
-import com.hirin.story.utils.extension.convertDate
-import com.hirin.story.utils.extension.getFirstLetterWords
 
 class LoadingStateViewHolder(
     val binding: LoadingItemBinding,
